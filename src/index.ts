@@ -17,6 +17,7 @@ export type Options = CloneOptions &
     };
 
 const html2canvas = (element: HTMLElement, options: Partial<Options> = {}): Promise<HTMLCanvasElement> => {
+    (window as any).TextBBs = []; // for storing text bounding boxes
     return renderElement(element, options);
 };
 

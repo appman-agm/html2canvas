@@ -146,7 +146,22 @@ export class CanvasRenderer extends Renderer {
     }
 
     renderTextWithLetterSpacing(text: TextBounds, letterSpacing: number, baseline: number): void {
+        const currentContextStyle = {...(window as any).textBBContext.style};
+        const TextBBs = ((window as any) as any).TextBBs; // store the bounding boxes globally
         if (letterSpacing === 0) {
+            // measure to find the bounding boxes
+            const metrics = this.ctx.measureText(text.text);
+            TextBBs.push({
+                text: text.text,
+                rect: {
+                    x: text.bounds.left - metrics.actualBoundingBoxLeft,
+                    y: text.bounds.top + baseline - metrics.actualBoundingBoxAscent,
+                    width: metrics.actualBoundingBoxRight,
+                    height: metrics.actualBoundingBoxDescent + metrics.actualBoundingBoxAscent
+                },
+                style: currentContextStyle,
+                parentId: text.bounds.parentId
+            });
             this.ctx.fillText(text.text, text.bounds.left, text.bounds.top + baseline);
         } else {
             const letters = splitGraphemes(text.text);
@@ -176,7 +191,7 @@ export class CanvasRenderer extends Renderer {
 
     async renderTextNode(text: TextContainer, styles: CSSParsedDeclaration): Promise<void> {
         const [font, fontFamily, fontSize] = this.createFontStyle(styles);
-
+        // console.
         this.ctx.font = font;
 
         this.ctx.direction = styles.direction === DIRECTION.RTL ? 'rtl' : 'ltr';
@@ -184,7 +199,13 @@ export class CanvasRenderer extends Renderer {
         this.ctx.textBaseline = 'alphabetic';
         const {baseline, middle} = this.fontMetrics.getMetrics(fontFamily, fontSize);
         const paintOrder = styles.paintOrder;
-
+        (window as any).textBBContext = {
+            text: text.text,
+            style: {
+                fontFamily: fontFamily,
+                fontSize: fontSize
+            }
+        };
         text.textBounds.forEach((text) => {
             paintOrder.forEach((paintOrderLayer) => {
                 switch (paintOrderLayer) {

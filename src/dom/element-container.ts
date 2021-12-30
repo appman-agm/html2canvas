@@ -36,7 +36,9 @@ export class ElementContainer {
                 element.style.transform = 'none';
             }
         }
-
+        // eslint-disable-next-line no-console
+        console.log(element.getAttribute('parentid'));
+        this.context.currentTextParentId = element.getAttribute('parentid')?.toString() || '';
         this.bounds = parseBounds(this.context, element);
 
         if (isDebugging(element, DebuggerType.RENDER)) {

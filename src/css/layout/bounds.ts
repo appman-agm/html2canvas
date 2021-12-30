@@ -1,7 +1,13 @@
 import {Context} from '../../core/context';
 
 export class Bounds {
-    constructor(readonly left: number, readonly top: number, readonly width: number, readonly height: number) {}
+    constructor(
+        readonly left: number,
+        readonly top: number,
+        readonly width: number,
+        readonly height: number,
+        readonly parentId: string = ''
+    ) {}
 
     add(x: number, y: number, w: number, h: number): Bounds {
         return new Bounds(this.left + x, this.top + y, this.width + w, this.height + h);
@@ -12,7 +18,8 @@ export class Bounds {
             clientRect.left + context.windowBounds.left,
             clientRect.top + context.windowBounds.top,
             clientRect.width,
-            clientRect.height
+            clientRect.height,
+            context.currentTextParentId
         );
     }
 
