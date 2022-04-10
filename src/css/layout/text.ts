@@ -85,7 +85,7 @@ const createRange = (node: Text, offset: number, length: number): Range => {
 const getRangeBounds = (context: Context, node: Text, offset: number, length: number): Bounds => {
     return Bounds.fromClientRect(context, createRange(node, offset, length).getBoundingClientRect());
 };
-
+// TC: text I observe never is broken here
 const breakText = (value: string, styles: CSSParsedDeclaration): string[] => {
     return styles.letterSpacing !== 0 ? splitGraphemes(value) : breakWords(value, styles);
 };

@@ -151,14 +151,15 @@ export class CanvasRenderer extends Renderer {
         if (letterSpacing === 0) {
             // measure to find the bounding boxes
             const metrics = this.ctx.measureText(text.text);
+            const rect = {
+                x: text.bounds.left - metrics.actualBoundingBoxLeft,
+                y: text.bounds.top + baseline - metrics.actualBoundingBoxAscent,
+                width: metrics.actualBoundingBoxRight,
+                height: metrics.actualBoundingBoxDescent + metrics.actualBoundingBoxAscent
+            };
             TextBBs.push({
                 text: text.text,
-                rect: {
-                    x: text.bounds.left - metrics.actualBoundingBoxLeft,
-                    y: text.bounds.top + baseline - metrics.actualBoundingBoxAscent,
-                    width: metrics.actualBoundingBoxRight,
-                    height: metrics.actualBoundingBoxDescent + metrics.actualBoundingBoxAscent
-                },
+                rect: rect,
                 style: currentContextStyle,
                 parentId: text.bounds.parentId
             });
@@ -191,7 +192,6 @@ export class CanvasRenderer extends Renderer {
 
     async renderTextNode(text: TextContainer, styles: CSSParsedDeclaration): Promise<void> {
         const [font, fontFamily, fontSize] = this.createFontStyle(styles);
-        // console.
         this.ctx.font = font;
 
         this.ctx.direction = styles.direction === DIRECTION.RTL ? 'rtl' : 'ltr';
@@ -199,11 +199,15 @@ export class CanvasRenderer extends Renderer {
         this.ctx.textBaseline = 'alphabetic';
         const {baseline, middle} = this.fontMetrics.getMetrics(fontFamily, fontSize);
         const paintOrder = styles.paintOrder;
+        const fontStyles = font.split(' ');
         (window as any).textBBContext = {
             text: text.text,
             style: {
                 fontFamily: fontFamily,
-                fontSize: fontSize
+                fontSize: fontSize,
+                fontStyle: fontStyles[0],
+                fontVarient: fontStyles[1],
+                fontWeight: fontStyles[2]
             }
         };
         text.textBounds.forEach((text) => {
