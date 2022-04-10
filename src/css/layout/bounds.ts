@@ -6,7 +6,8 @@ export class Bounds {
         readonly top: number,
         readonly width: number,
         readonly height: number,
-        readonly parentId: string = ''
+        readonly parentId: string = '',
+        readonly meta: string = ''
     ) {}
 
     add(x: number, y: number, w: number, h: number): Bounds {
@@ -19,7 +20,8 @@ export class Bounds {
             clientRect.top + context.windowBounds.top,
             clientRect.width,
             clientRect.height,
-            context.currentTextParentId
+            context.currentTextParentId,
+            context.currentTextMeta
         );
     }
 

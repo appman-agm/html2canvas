@@ -37,6 +37,7 @@ export class ElementContainer {
             }
         }
         this.context.currentTextParentId = element.getAttribute('parentid')?.toString() || '';
+        this.context.currentTextMeta = element.getAttribute('meta')?.toString() || '';
         this.bounds = parseBounds(this.context, element);
 
         if (isDebugging(element, DebuggerType.RENDER)) {
