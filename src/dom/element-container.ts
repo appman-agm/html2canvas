@@ -37,7 +37,8 @@ export class ElementContainer {
             }
         }
         this.context.currentTextParentId = element.getAttribute('parentid')?.toString() || '';
-        this.context.currentTextMeta = element.getAttribute('meta')?.toString() || '';
+        this.context.currentTextTagId = element.getAttribute('tagid')?.toString() || '';
+        this.context.currentTextLineId = element.getAttribute('lineid')?.toString() || '';
         this.bounds = parseBounds(this.context, element);
 
         if (isDebugging(element, DebuggerType.RENDER)) {

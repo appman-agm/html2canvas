@@ -12,7 +12,8 @@ export class Context {
     readonly logger: Logger;
     readonly cache: Cache;
     currentTextParentId: string;
-    currentTextMeta: string;
+    currentTextTagId: string;
+    currentTextLineId: string;
 
     private static instanceCount = 1;
 
@@ -20,6 +21,7 @@ export class Context {
         this.logger = new Logger({id: this.instanceName, enabled: options.logging});
         this.cache = options.cache ?? new Cache(this, options);
         this.currentTextParentId = '';
-        this.currentTextMeta = '';
+        this.currentTextTagId = '';
+        this.currentTextLineId = '';
     }
 }

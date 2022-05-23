@@ -162,7 +162,8 @@ export class CanvasRenderer extends Renderer {
                 rect: rect,
                 style: currentContextStyle,
                 parentId: text.bounds.parentId,
-                meta: text.bounds.meta
+                tagId: text.bounds.tagId,
+                lineId: text.bounds.lineId
             });
             this.ctx.fillText(text.text, text.bounds.left, text.bounds.top + baseline);
         } else {
