@@ -378,40 +378,14 @@ export class CanvasRenderer extends Renderer {
 
         if (container instanceof InputElementContainer) {
             const size = Math.min(container.bounds.width, container.bounds.height);
-
-            if (container.type === CHECKBOX) {
                 if (container.checked) {
-                    this.ctx.save();
-                    this.path([
-                        new Vector(container.bounds.left + size * 0.39363, container.bounds.top + size * 0.79),
-                        new Vector(container.bounds.left + size * 0.16, container.bounds.top + size * 0.5549),
-                        new Vector(container.bounds.left + size * 0.27347, container.bounds.top + size * 0.44071),
-                        new Vector(container.bounds.left + size * 0.39694, container.bounds.top + size * 0.5649),
-                        new Vector(container.bounds.left + size * 0.72983, container.bounds.top + size * 0.23),
-                        new Vector(container.bounds.left + size * 0.84, container.bounds.top + size * 0.34085),
-                        new Vector(container.bounds.left + size * 0.39363, container.bounds.top + size * 0.79)
-                    ]);
-
-                    this.ctx.fillStyle = asString(INPUT_COLOR);
-                    this.ctx.fill();
-                    this.ctx.restore();
-                }
-            } else if (container.type === RADIO) {
-                if (container.checked) {
-                    this.ctx.save();
-                    this.ctx.beginPath();
-                    this.ctx.arc(
-                        container.bounds.left + size / 2,
-                        container.bounds.top + size / 2,
-                        size / 4,
-                        0,
-                        Math.PI * 2,
-                        true
-                    );
-                    this.ctx.fillStyle = asString(INPUT_COLOR);
-                    this.ctx.fill();
-                    this.ctx.restore();
-                }
+                this.ctx.save();
+                this.ctx.beginPath();
+                this.ctx.fillStyle = asString(INPUT_COLOR);
+                this.ctx.font = container.textSize + "px Arial";
+                this.ctx.fillText(container.name, container.bounds.left + (size*0.08), container.bounds.top + (size*1.2));
+                this.ctx.fill();
+                this.ctx.restore();
             }
         }
 

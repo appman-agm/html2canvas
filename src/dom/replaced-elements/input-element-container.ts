@@ -40,7 +40,7 @@ const getInputValue = (node: HTMLInputElement): string => {
 };
 
 export const CHECKBOX = 'checkbox';
-export const RADIO = 'radio';
+export const RADIO = 'button';
 export const PASSWORD = 'password';
 export const INPUT_COLOR = 0x2a2a2aff;
 
@@ -48,15 +48,19 @@ export class InputElementContainer extends ElementContainer {
     readonly type: string;
     readonly checked: boolean;
     readonly value: string;
+    readonly name: string;
+    readonly textSize: string;
 
     constructor(context: Context, input: HTMLInputElement) {
         super(context, input);
         this.type = input.type.toLowerCase();
         this.checked = input.checked;
         this.value = getInputValue(input);
+        this.name = input.name.charAt(0);
+        this.textSize = input.name.replace(this.name, "");
 
         if (this.type === CHECKBOX || this.type === RADIO) {
-            this.styles.backgroundColor = 0xdededeff;
+            this.styles.backgroundColor = 0x00000000;
             this.styles.borderTopColor =
                 this.styles.borderRightColor =
                 this.styles.borderBottomColor =
